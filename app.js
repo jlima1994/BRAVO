@@ -144,18 +144,31 @@ function salvarP7() {
 
 // ================= PAGE 8 =================
 function pagina8() {
-  let html = `<div class="container"><h2>Pedágios</h2>`;
-  
+  let html = `
+  <div class="container">
+    <h2>Pedágios</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <strong>Qtd</strong>
+      <strong>Valor (R$)</strong>
+  `;
+
   for (let i = 0; i < 10; i++) {
     html += `
       <select id="q${i}">
-        ${[...Array(21).keys()].map(n => `<option>${n}</option>`).join("")}
+        ${[...Array(21).keys()].map(n => `<option value="${n}">${n}</option>`).join("")}
       </select>
-      <input placeholder="Valor" id="v${i}">
+
+      <input type="number" step="0.01" max="100" placeholder="0,00" id="v${i}">
     `;
   }
 
-  html += `<button onclick="salvarP8()">Gravar</button></div>`;
+  html += `
+    </div>
+    <button onclick="salvarP8()">Gravar</button>
+  </div>
+  `;
+
   app.innerHTML = html;
 }
 
