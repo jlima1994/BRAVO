@@ -176,6 +176,24 @@ function pagina8() {
   document.getElementById("app").innerHTML = html;
 }
 
+function salvarP8() {
+  dados.pedagios = [];
+
+  for (let i = 0; i < 10; i++) {
+    let q = parseInt(document.getElementById(`q${i}`).value);
+    let v = document.getElementById(`v${i}`).value;
+
+    if (q > 0 && v !== "") {
+      dados.pedagios.push({
+        quantidade: q,
+        valor: v
+      });
+    }
+  }
+
+  pagina9();
+}
+
 // ================= PAGE 9 =================
 function pagina9() {
   let totalKM = dados.deslocamentoFim.km - dados.deslocamentoInicio.km;
