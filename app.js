@@ -144,25 +144,24 @@ function salvarP7() {
 
 // ================= PAGE 8 =================
 function pagina8() {
-  let html = `
-  <div class="container">
-    <h2>Pedágios</h2>
-  `;
+  let html = '<div class="container">';
+  html += '<h2>Pedágios</h2>';
 
   for (let i = 0; i < 10; i++) {
     html += `
-      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 10px; margin-bottom: 8px;">
+      <div style="display:flex; gap:10px; margin-bottom:10px;">
         
-        <select id="q${i}">
+        <select id="q${i}" style="flex:1;">
           ${[...Array(21).keys()].map(n => `<option value="${n}">${n}</option>`).join("")}
         </select>
 
         <input 
+          id="v${i}" 
           type="number" 
           step="0.01" 
           max="100" 
-          placeholder="Valor (R$)" 
-          id="v${i}"
+          placeholder="Valor (R$)"
+          style="flex:2;"
         >
 
       </div>
@@ -174,7 +173,7 @@ function pagina8() {
   </div>
   `;
 
-  app.innerHTML = html;
+  document.getElementById("app").innerHTML = html;
 }
 
 // ================= PAGE 9 =================
