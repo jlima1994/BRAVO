@@ -61,9 +61,25 @@ function pagina3() {
 }
 
 function salvarPagina3() {
-  dados.placa = document.getElementById("placa").value;
+  let placa = document.getElementById("placa").value.toUpperCase().trim();
+
+  // Regex placa BR (antiga + Mercosul)
+  let regex = /^[A-Z]{3}-?[0-9][A-Z0-9][0-9]{2}$/;
+
+  if (!regex.test(placa)) {
+    alert("PLACA INVÁLIDA! USE EX: ABC-1234 OU ABC-1D23");
+    return;
+  }
+
+  // Padroniza com hífen
+  if (!placa.includes("-")) {
+    placa = placa.slice(0,3) + "-" + placa.slice(3);
+  }
+
+  dados.placa = placa;
   dados.motorista = document.getElementById("motorista").value;
   dados.seguranca = document.getElementById("seguranca").value;
+
   pagina4();
 }
 
@@ -196,42 +212,50 @@ function salvarP8() {
 
 // ================= PAGE 9 =================
 function pagina9() {
-  let totalKM = dados.deslocamentoFim.km - dados.deslocamentoInicio.km;
+
+  let totalKM = Number(dados.deslocamentoFim.km) - Number(dados.deslocamentoInicio.km);
 
   let pedagiosTexto = dados.pedagios.map(p =>
-    `${p.quantidade}x R$ ${p.valor}`
+    `${p.quantidade}X R$ ${p.valor}`
   ).join("<br>");
 
   app.innerHTML = `
   <div class="container">
-    <h2>Resumo</h2>
-
-  <p>${formatarDataBR(dados.data)}</p>
 
     <p>
-    Equipe:<br>
-    Veículo: ${dados.placa}<br>
-    Mot: ${dados.motorista}<br>
-    Seg: ${dados.seguranca}
+      ${formatarDataBR(dados.data)}<br>
+      <strong>${dados.tipoServico.toUpperCase()} ${dados.descricao.toUpperCase()}</strong>
     </p>
-
-    <p>${dados.tipoServico}<br>${dados.descricao}</p>
 
     <p>
-    Deslocamento: ${dados.deslocamentoInicio.km} ${dados.deslocamentoInicio.hora}<br>
-    Inicio ${dados.tipoServico}: ${dados.servicoInicio.km} ${dados.servicoInicio.hora}<br>
-    Final ${dados.tipoServico}: ${dados.servicoFim.km} ${dados.servicoFim.hora}<br>
-    Deslocamento: ${dados.deslocamentoFim.km} ${dados.deslocamentoFim.hora}
+      EQUIPE:<br>
+      VEÍCULO: ${dados.placa.toUpperCase()}<br>
+      MOT: ${dados.motorista.toUpperCase()}<br>
+      SEG: ${dados.seguranca.toUpperCase()}
     </p>
 
-    <p>Deslocamento total: ${totalKM}</p>
+    <p>
+      DESLOCAMENTO: ${dados.deslocamentoInicio.km} ${dados.deslocamentoInicio.hora}<br>
+      INÍCIO ${dados.tipoServico.toUpperCase()}: ${dados.servicoInicio.km} ${dados.servicoInicio.hora}<br>
+      FINAL ${dados.tipoServico.toUpperCase()}: ${dados.servicoFim.km} ${dados.servicoFim.hora}<br>
+      DESLOCAMENTO: ${dados.deslocamentoFim.km} ${dados.deslocamentoFim.hora}
+    </p>
 
-    <p>Pedágios:<br>${pedagiosTexto}</p>
+    <p>
+      DESLOCAMENTO TOTAL: ${totalKM} KM
+    </p>
 
-    <button onclick="pagina1()">Finalizar</button>
+    <p>
+      PEDÁGIOS:<br>
+      ${pedagiosTexto || "NENHUM"}
+    </p>
+
+    <button onclick="pagina1()">FINALIZAR</button>
+    <button onclick="copiarResenha()">COPIAR RESENHA</button>
+    <button onclick="pagina1()">FINALIZAR</button>
+
   </div>`;
 }
-
 // ================= PAGE 10 =================
 function pagina10() {
   app.innerHTML = `
